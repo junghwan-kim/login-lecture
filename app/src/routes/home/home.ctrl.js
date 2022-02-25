@@ -1,5 +1,8 @@
 'use strict';
 
+const UserStorege = require('../../models/UserStorege');
+
+
 const output = {
     home : (req, res) => {
         res.render('home/index');
@@ -10,34 +13,27 @@ const output = {
 };
 
 
-const users = {
-    id: ["test1","test2","test3"],
-    pwd: ["1234","1111 ","1456"],
-}
-
-
 const process = {
     login : (req, res) =>{
         const id = req.body.id;
         const pwd = req.body.pwd;
+        
+        const users = UserStorege.getUsers("id","pwd");
 
+        const response = {};
         if(users.id.includes(id)){
             const idx = users.id.indexOf(id);
             if(users.pwd[idx] === pwd){
-                return res.json({
-                    success : true,
-                });
+                response.success = true;
+                return res.json(response);
             }
         }
 
-        return res.json({
-            success: false,
-            msg:"로그인에 실패했습니다",
-        })
-
+         response.success = false;
+         response.msg = "로그인에 실패했습니다";
+         return res.json(response)
     }
 };
-
 
 module.exports = {
     output,
