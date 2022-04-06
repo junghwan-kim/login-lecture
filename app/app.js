@@ -2,12 +2,20 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const dotenv = require("dotenv");
-dotenv.config();
+const morgan = require("morgan");
+
 
 const app = express();
+dotenv.config();
+
 
 //라우팅
 const home = require('./src/routes/home');
+
+
+//morgan...
+//const accessLogStream = require('./src/config/log');
+
 
 //앱세팅
 app.set('views', './src/views');
@@ -18,7 +26,13 @@ app.use(express.static(`${__dirname}/src/public`));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
-app.use('/', home)
+/*
+morgan...
+app.use(morgan('dev')); //콘솔에만 로그출력
+app.use(morgan('common',{stream:accessLogStream})); //파일에 로그저장
+*/
+
+app.use('/', home); //use > 미들웨어를 등록해주는 메소드.
 
 
 module.exports = app;
