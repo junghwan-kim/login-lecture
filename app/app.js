@@ -3,6 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const dotenv = require("dotenv");
 const morgan = require("morgan");
+const logger = require("./src/config/logger");
 
 
 const app = express();
@@ -26,6 +27,7 @@ app.use(express.static(`${__dirname}/src/public`));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
+app.use(morgan('tiny', {stream: logger.stream}));
 /*
 morgan...
 app.use(morgan('dev')); //콘솔에만 로그출력

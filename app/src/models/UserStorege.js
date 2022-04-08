@@ -9,8 +9,11 @@ class UserStorege {
        return new Promise((resolve, reject) =>{
             const query = "select *  from users where id=?";
             db.query(query,[id], (err, data) =>{
-                if(err) reject(`${err}`);
-                resolve(data[0]);
+                if(err){
+                    reject(`${err}`);        
+                } else {
+                     resolve(data[0]);
+                }
                 //console.log(data);
             });               
         });                        
@@ -24,8 +27,11 @@ class UserStorege {
                 query
                 ,[userInfo.id, userInfo.name, userInfo.pwd ]
                 ,(err) =>{
-                    if(err) reject(`${err}`);  
-                    resolve({success: true});              
+                    if(err){
+                        reject(`${err}`);    
+                    } else {
+                        resolve({success: true});              
+                    }
             });               
         }); 
 
